@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const io = require("socket.io");
+const { socketController } = require("../sockets/controller");
 
 class Server {
     constructor() {
@@ -13,6 +14,8 @@ class Server {
         this.middlewares();
         //rutas
         this.routes();
+        //sockets
+        this.sockets();
     }
 
     async conectarDB() {
@@ -21,6 +24,10 @@ class Server {
 
     routes() {
         //RUTAS DE SERVICIOS
+    }
+
+    sockets() {
+        this.io.on("connection", socketController);
     }
     listen() {
         this.server.listen(this.port, () => {
